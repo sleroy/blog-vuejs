@@ -1,8 +1,8 @@
 {
-  "name": "vue-express-mongo-boilerplate",
+  "name": "blog-sylvainleroy.com",
   "version": "0.9.0",
-  "title": "Vue-Express-Mongo BoilerPlate",
-  "description": "Express NodeJS application server boilerplate with Mongo and VueJS",
+  "title": "Blog SylvainLeroy.com",
+  "description": "Blog for SylvainLeroy.com using Express NodeJS application server boilerplate with Mongo and VueJS",
   "main": "server/index.js",
   "scripts": {
     "build": "webpack --progress --colors --config build/webpack.prod.config.js",

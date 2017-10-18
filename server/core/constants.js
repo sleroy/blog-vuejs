@@ -27,7 +27,8 @@ C.append([
 	"admin",
 	"owner",
 	"loggedIn",
-	"public"
+	"public",
+	"publicSave"
 ], "PERM");
 
 /**

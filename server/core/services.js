@@ -47,7 +47,7 @@ class Services extends EventEmitter {
 	/**
 	 * Load built-in and applogic services. Scan the folders
 	 * and load service files
-	 * 
+	 *
 	 * @param  {Object} app ExpressJS instance
 	 * @param  {Object} db  Database instance
 	 */
@@ -97,7 +97,7 @@ class Services extends EventEmitter {
 
 	/**
 	 * Register actions of services as REST routes
-	 * 
+	 *
 	 * @param  {Object} app ExpressJS instance
 	 */
 	registerRoutes(app) {
@@ -178,7 +178,7 @@ class Services extends EventEmitter {
 					router.get("/" + name, handler);
 					router.post("/" + name, handler);
 
-					// You can call with ID in the path 
+					// You can call with ID in the path
 					// 		GET  /api/namespace/123/vote
 					// 		POST /api/namespace/123/vote
 					router.get("/:" + idParamName + "/" + name, handler);
@@ -186,71 +186,101 @@ class Services extends EventEmitter {
 
 					// Create default RESTful handlers
 					switch (name) {
+            // You can call the `find` action with
+            // 		GET /api/namespace/
+            case "find": {
+              router.get("/", handler);
+              break;
+            }
 
-					// You can call the `find` action with 
-					// 		GET /api/namespace/
-					case "find": {
-						router.get("/", handler);	
-						break;
-					}
+            // You can call the `get` action with
+            // 		GET /api/namespace/?id=123
+            // 	or
+            // 		GET /api/namespace/123
+            case "get": {
+              // router.get("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "get",
+                path: "/:" + idParamName,
+                handler: handler
+              });
+              break;
+            }
 
-					// You can call the `get` action with
-					// 		GET /api/namespace/?id=123 
-					// 	or 
-					// 		GET /api/namespace/123
-					case "get": {
-						// router.get("/:" + idParamName, handler);	
-						lastRoutes.push({ method: "get", path: "/:" + idParamName, handler: handler });
-						break;
-					}
+            // You can call the `create` action with
+            // 		POST /api/namespace/
+            case "create": {
+              // router.post("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "post",
+                path: "/:" + idParamName,
+                handler: handler
+              });
+              router.post("/", handler);
+              break;
+            }
 
-					// You can call the `create` action with 
-					// 		POST /api/namespace/
-					case "create": {
-						// router.post("/:" + idParamName, handler);	
-						lastRoutes.push({ method: "post", path: "/:" + idParamName, handler: handler });
-						router.post("/", handler);	
-						break;
-					}
+            // You can call the `update` action with
+            // 		PUT /api/namespace/?id=123
+            // 	or
+            // 		PATCH /api/namespace/?id=123
+            // 	or
+            // 		PUT /api/namespace/123
+            // 	or
+            // 		PATCH /api/namespace/123
+            case "update": {
+              // router.put("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "put",
+                path: "/:" + idParamName,
+                handler: handler
+              });
+              // router.patch("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "patch",
+                path: "/:" + idParamName,
+                handler: handler
+              });
 
-					// You can call the `update` action with
-					// 		PUT /api/namespace/?id=123 
-					// 	or 
-					// 		PATCH /api/namespace/?id=123 
-					// 	or 
-					// 		PUT /api/namespace/123
-					// 	or 
-					// 		PATCH /api/namespace/123
-					case "update": {
-						// router.put("/:" + idParamName, handler);	
-						lastRoutes.push({ method: "put", path: "/:" + idParamName, handler: handler });
-						// router.patch("/:" + idParamName, handler);	
-						lastRoutes.push({ method: "patch", path: "/:" + idParamName, handler: handler });
+              router.put("/", handler);
+              router.patch("/", handler);
+              break;
+            }
 
-						router.put("/", handler);	
-						router.patch("/", handler);	
-						break;
-					}
+            // You can call the `remove` action with
+            // 		DELETE /api/namespace/?id=123
+            // 	or
+            // 		DELETE /api/namespace/123
+            case "remove": {
+              // router.delete("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "delete",
+                path: "/:" + idParamName,
+                handler: handler
+              });
+              router.delete("/", handler);
+              break;
+            }
 
-					// You can call the `remove` action with 
-					// 		DELETE /api/namespace/?id=123 
-					// 	or 
-					// 		DELETE /api/namespace/123
-					case "remove": {
-						// router.delete("/:" + idParamName, handler);	
-						lastRoutes.push({ method: "delete", path: "/:" + idParamName, handler: handler });
-						router.delete("/", handler);	
-						break;
-					}
-					}
+            case "removeAll": {
+              // router.delete("/:" + idParamName, handler);
+              lastRoutes.push({
+                method: "delete",
+                path: "/removeAll",
+                handler: handler
+              });
+              router.delete("/", handler);
+              break;
+            }
+          }
 
 				});
-				
-				// Register '/:code' routes 
+
+				// Register '/:code' routes
 				lastRoutes.forEach((item) => {
 					router[item.method](item.path, item.handler);
 				});
-				
+
 
 				// Register router to namespace
 				app.use("/api/" + service.namespace, router);
@@ -265,7 +295,7 @@ class Services extends EventEmitter {
 
 	/**
 	 * Register actions of services as socket.io event handlers
-	 * 
+	 *
 	 * @param  {Object} IO            Socket.IO object
 	 * @param  {Object} socketHandler Socket handler instance
 	 */
@@ -307,7 +337,7 @@ class Services extends EventEmitter {
 							console.time("SOCKET request");
 							self.emit("request", ctx);
 							let cacheKey = service.getCacheKey(action.name, ctx.params);
-							
+
 							Promise.resolve()
 
 							// Resolve model if ID provided
@@ -358,7 +388,7 @@ class Services extends EventEmitter {
 				});
 
 			}
-		});	
+		});
 	}
 
 	/**
@@ -376,7 +406,7 @@ class Services extends EventEmitter {
 
 		_.forIn(this.services, (service, name) => {
 			if (service.$settings.graphql !== false && _.isObject(service.$schema.graphql)) {
-				let graphQL = service.$schema.graphql; 
+				let graphQL = service.$schema.graphql;
 				graphQL.resolvers = graphQL.resolvers || {};
 
 				let processResolvers = function(resolvers) {
@@ -393,15 +423,15 @@ class Services extends EventEmitter {
 
 								if (!_.isFunction(action.handler))
 									throw new Error(`Missing handler function in '${name}' action in '${service.name}' service!`);
-							
+
 								let ctx = Context.CreateFromGraphQL(service, action, root, args, context);
 								logger.debug("Request via GraphQL", ctx.params, context.query);
 								console.time("GRAPHQL request");
 								self.emit("request", ctx);
 								let cacheKey = service.getCacheKey(action.name, ctx.params);
-								
+
 								return Promise.resolve()
-								
+
 								// Resolve model if ID provided
 								.then(() => {
 									return ctx.resolveModel();
@@ -426,7 +456,7 @@ class Services extends EventEmitter {
 									self.emit("response", ctx);
 									console.timeEnd("GRAPHQL request");
 									return json;
-								});								
+								});
 							};
 
 							resolvers[name] = handler;
@@ -498,7 +528,7 @@ class Services extends EventEmitter {
 					__parseLiteral(ast) {
 						if (ast.kind === Kind.INT)
 							return parseInt(ast.value, 10); // ast value is always in string format
-						
+
 						return null;
 					}
 				}
@@ -538,7 +568,7 @@ class Services extends EventEmitter {
 
 	/**
 	 * Print service info to the console (in dev mode)
-	 * 
+	 *
 	 * @memberOf Services
 	 */
 	printServicesInfo() {
