@@ -9,7 +9,7 @@ let _ = require("lodash");
 let db = require("../../../../core/mongo");
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
-let hashids = require("../../../../libs/hashids")("tags");
+let hashids = require("../../../../libs/hashids")("categories");
 let autoIncrement = require("mongoose-auto-increment");
 
 let schemaOptions = {
@@ -22,14 +22,14 @@ let schemaOptions = {
   }
 };
 
-let TagSchema = new Schema(
+let CategorySchema = new Schema(
   {
     name: {
       type: String,
-      required: "Please provide a name to this tag",
+      required: "Please provide a name to this category",
       trim: true
     },
-    tag_id: {
+    category_id: {
       type: String,
       trim: true,
       unique: true,
@@ -49,23 +49,23 @@ let TagSchema = new Schema(
   schemaOptions
 );
 
-TagSchema.virtual("code").get(function() {
+CategorySchema.virtual("code").get(function() {
   return this.encodeID();
 });
 
-TagSchema.plugin(autoIncrement.plugin, {
-  model: "Tag",
+CategorySchema.plugin(autoIncrement.plugin, {
+  model: "Category",
   startAt: 1
 });
 
-TagSchema.methods.encodeID = function() {
+CategorySchema.methods.encodeID = function() {
   return hashids.encodeHex(this._id);
 };
 
-TagSchema.methods.decodeID = function(code) {
+CategorySchema.methods.decodeID = function(code) {
   return hashids.decodeHex(code);
 };
 
-let Tag = mongoose.model("Tag", TagSchema);
+let Category = mongoose.model("Category", CategorySchema);
 
-module.exports = Tag;
+module.exports = Category;

@@ -6,22 +6,21 @@ let C 	 		= require("../../../core/constants");
 
 let _			= require("lodash");
 
-let Tag = require("./models/tags");
+let Category = require("./models/categories");
 let slug = require("../../../../server/libs/slug");
 
 module.exports = {
 	settings: {
-		name: "tags",
+		name: "categories",
 		version: 1,
-		namespace: "tags",
+		namespace: "categories",
 		rest: true,
 		ws: true,
 		graphql: true,
 		permission: C.PERM_LOGGEDIN,
 		role: "user",
-		collection: Tag,
-
-		modelPropFilter: "code name slug tag_id"
+		collection: Category,
+		modelPropFilter: "code name slug category_id"
 	},
 
 	actions: {
@@ -31,7 +30,7 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				let query = Tag.find(filter);
+				let query = this.collection.find(filter);
 				return ctx.queryPageSort(query).exec().then( (docs) => {
 					return this.toJSON(docs);
 				});
@@ -43,7 +42,7 @@ module.exports = {
 			cache: true,
 			permission: C.PERM_PUBLIC,
 			handler(ctx) {
-				ctx.assertModelIsExist(ctx.t("app:TagNotFound"));
+				ctx.assertModelIsExist(ctx.t("app:CategoryNotFound"));
 				return Promise.resolve(ctx.model);
 			}
 		},
@@ -51,15 +50,15 @@ module.exports = {
 		create(ctx) {
 			this.validateParams(ctx, true);
 
-			let tag = new Tag({
+			let category = new Category({
 				name: ctx.params.name,
 				slug: slug.slugIfMissing(ctx.params.name, ctx.params.slug),
-				tag_id: ctx.params.tag_id
+				category_id: ctx.params.category_id
 			});
 
 
 
-			return tag.save()
+			return category.save()
 			.then((doc) => {
 				return this.toJSON(doc);
 			})
@@ -73,7 +72,7 @@ module.exports = {
 		},
 
 		update(ctx) {
-			ctx.assertModelIsExist(ctx.t("app:TagNotFound"));
+			ctx.assertModelIsExist(ctx.t("app:CategoryNotFound"));
 			this.validateParams(ctx);
 
 			return this.collection.findById(ctx.modelID).exec()
@@ -82,8 +81,8 @@ module.exports = {
 				if (ctx.params.name != null)
 					doc.name = ctx.params.name;
 
-				if (ctx.params.tag_id != null)
-					doc.tag_id = ctx.params.tag_id;
+				if (ctx.params.category_id != null)
+					doc.category_id = ctx.params.category_id;
 
 				if (ctx.params.slug != null || ctx.params.name != null)
 					doc.slug = slug.slugIfMissing(ctx.params.name, ctx.params.slug);
@@ -103,9 +102,9 @@ module.exports = {
 		},
 
 		remove(ctx) {
-			ctx.assertModelIsExist(ctx.t("app:TagNotFound"));
+			ctx.assertModelIsExist(ctx.t("app:CategoryNotFound"));
 
-			return Tag.remove({ _id: ctx.modelID })
+			return this.collection.remove({ _id: ctx.modelID })
 			.then(() => {
 				return ctx.model;
 			})
@@ -127,10 +126,10 @@ module.exports = {
 		 */
 		validateParams(ctx, strictMode) {
 			if (strictMode || ctx.hasParam("name"))
-				ctx.validateParam("name").trim().notEmpty(ctx.t("app:TagNameCannotBeBlank")).end();
+				ctx.validateParam("name").trim().notEmpty(ctx.t("app:CategoryNameCannotBeBlank")).end();
 
 
-			ctx.validateParam("tag_id").trim().end();
+			ctx.validateParam("category_id").trim().end();
 
 
 			if (ctx.hasValidationErrors())
@@ -151,34 +150,34 @@ module.exports = {
 	graphql: {
 
 		query: `
-			tags(limit: Int, offset: Int, sort: String): [Tag]
-			tag(code: String): Tag
+			categories(limit: Int, offset: Int, sort: String): [Category]
+			category(code: String): Category
 		`,
 
 		types: `
-			type Tag {
+			type Category {
 				name: String
 				slug: String
-				tag_id: String
+				category_id: String
 			}
 		`,
 
 		mutation: `
-			tagCreate(name: String!, slug: String!, tag_id: String): Tag
-			tagUpdate(code: String!, name: String!, slug: String!, tag_id: String): Tag
-			tagRemove(code: String!): Tag
+			categoryCreate(name: String!, slug: String!, category_id: String): Category
+			categoryUpdate(code: String!, name: String!, slug: String!, category_id: String): Category
+			categoryRemove(code: String!): Category
 		`,
 
 		resolvers: {
 			Query: {
-				tags: "find",
-				tag: "get"
+				categories: "find",
+				category: "get"
 			},
 
 			Mutation: {
-				tagCreate: "create",
-				tagUpdate: "update",
-				tagRemove: "remove"
+				categoryCreate: "create",
+				categoryUpdate: "update",
+				categoryRemove: "remove"
 			}
 		}
 	}
@@ -189,41 +188,41 @@ module.exports = {
 ## GraphiQL test ##
 
 # Find all devices
-query getTags {
+query getCategorys {
   devices(sort: "lastCommunication", limit: 5) {
     ...deviceFields
   }
 }
 
 # Create a new device
-mutation createTag {
+mutation createCategory {
   deviceCreate(name: "New device", address: "192.168.0.1", type: "raspberry", description: "My device", status: 1) {
     ...deviceFields
   }
 }
 
 # Get a device
-query getTag($code: String!) {
+query getCategory($code: String!) {
   device(code: $code) {
     ...deviceFields
   }
 }
 
 # Update an existing device
-mutation updateTag($code: String!) {
+mutation updateCategory($code: String!) {
   deviceUpdate(code: $code, address: "127.0.0.1") {
     ...deviceFields
   }
 }
 
 # Remove a device
-mutation removeTag($code: String!) {
+mutation removeCategory($code: String!) {
   deviceRemove(code: $code) {
     ...deviceFields
   }
 }
 
-fragment deviceFields on Tag {
+fragment deviceFields on Category {
     code
     address
     type
