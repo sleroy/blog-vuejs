@@ -72,12 +72,17 @@ let HexoPostSchema = new Schema({
 	link: {
 		type: String
 	},
-	tags: {
-		type: Boolean
+	slug: {
+		type: String
 	},
-	categories: {
-		type: Boolean
-	},
+	tags: [{
+		type: String,
+		ref: "Tag"
+	}],
+	categories:  [{
+		type: String,
+		ref: "Category"
+	}],
 	metadata: {}
 
 }, schemaOptions);
@@ -91,19 +96,14 @@ HexoPostSchema.plugin(autoIncrement.plugin, {
 	startAt: 1
 });
 
-HexoPostSchema.methods.encodeID = function () {
-	//const id = hashids.encodeHex(this._id);
-	//console.info("#ID ", this._id, " ID=", id);
-	//console.info("Decode #HASH ", id, " ID=", hashids.decodeHex(id));
-	return  this._id;
+
+HexoPostSchema.methods.encodeID = function() {
+  return hashids.encodeHex(this._id);
 };
 
-HexoPostSchema.methods.decodeID = function (code) {
-	console.info("Decode #HASH ", code, " ID=", hashids.decodeHex(code));
-	// return hashids.decodeHex(code);
-	return code;
+HexoPostSchema.methods.decodeID = function(code) {
+  return hashids.decodeHex(code);
 };
-
 /*
 HexoPostSchema.static("getByID", function(id) {
 	let query;

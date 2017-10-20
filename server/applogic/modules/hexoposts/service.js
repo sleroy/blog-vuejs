@@ -7,6 +7,7 @@ let C = require("../../../core/constants");
 let _ = require("lodash");
 
 let HexoPost = require("./models/hexopost");
+let slug = require("../../../../server/libs/slug");
 
 module.exports = {
   settings: {
@@ -19,11 +20,13 @@ module.exports = {
     permission: C.PERM_LOGGEDIN,
     role: "user",
     collection: HexoPost,
-    modelPropFilter: "code title excerpt createdAt updatedAt votes voters views author more published comments permalink link tags categories",
-    // excerpt more content author votes voters views createdAt editedAt published comments permalink link tags categories
+    modelPropFilter:
+      "code title excerpt createdAt updatedAt votes voters views author more published comments permalink link tags categories slug",
     modelPopulates: {
-      author: "persons",
-      voters: "persons"
+      author: { service: "persons" },
+      voters: { service: "persons" },
+      tags: { service: "tags", ref: ["id", "tag_id"] },
+      categories: { service: "categories", ref: ["id", "category_id"] }
     }
   },
 
@@ -75,14 +78,13 @@ module.exports = {
       handler(ctx) {
         this.validateParams(ctx, true);
 
-		console.info("Invocation of the post creation");
+        console.info("Invocation of the post creation");
 
-		let postData = ctx.params;
-		postData.author = ctx.user.id;
+        let postData = ctx.params;
+        postData.author = ctx.user.id;
+        postData.slug = slug.slugIfMissing(postData.title, postData.slug);
 
-		let post = new HexoPost(postData);
-
-		console.info("Post to create ", post);
+        let post = new HexoPost(postData);
 
         return post
           .save()
@@ -109,6 +111,8 @@ module.exports = {
           .findById(ctx.modelID)
           .exec()
           .then(doc => {
+            //TODO:: fill the doc
+            // postData.slug = slug.slugIfMissing(postData.title, postData.slug);
             if (ctx.params.title != null) doc.title = ctx.params.title;
 
             if (ctx.params.content != null) doc.content = ctx.params.content;
@@ -155,6 +159,48 @@ module.exports = {
           .then(json => {
             this.notifyModelChanges(ctx, "removedAll", json);
             return json;
+          });
+      }
+    },
+
+    pages: {
+      permission: C.PERM_PUBLIC,
+      cache: true, // if true, we don't increment the views!
+      handler(ctx) {
+        const pageOptions = {
+          page: Math.min(parseInt(ctx.params.page) || 0, 0),
+          limit: Math.min(
+            parseInt(ctx.params.limit) || config.paging.default_limit,
+            config.paging.max_limit
+          )
+        };
+
+        return this.collection
+          .find({}, "code")
+          .skip(pageOptions.page * pageOptions.limit)
+          .limit(pageOptions.limit)
+          .sort("-createdAt")
+          .exec()
+          .then(doc => {
+            return this.toJSON(doc);
+          });
+      }
+    },
+
+    pageCount: {
+      permission: C.PERM_PUBLIC,
+      cache: true, // if true, we don't increment the views!
+      handler(ctx) {
+        const limit = Math.min(
+          parseInt(ctx.params.limit) || config.paging.default_limit,
+          config.paging.max_limit
+        );
+
+        return this.collection
+          .count()
+          .exec()
+          .then(doc => {
+            return this.toJSON(Math.round(doc/limit));
           });
       }
     },
@@ -276,6 +322,8 @@ module.exports = {
   init(ctx) {
     // Fired when start the service
     this.personService = ctx.services("persons");
+    this.tagService = ctx.services("tags");
+    this.categoryService = ctx.services("categories");
 
     // Add custom error types
     C.append(["ALREADY_VOTED", "NOT_VOTED_YET"], "ERR");

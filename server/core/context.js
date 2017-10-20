@@ -11,7 +11,7 @@ let Sockets   		= require("./sockets");
 let _ 				= require("lodash");
 let hash			= require("object-hash");
 
-let Services; // circular reference
+let ServiceLoader; // circular reference
 
 /**
  * Context class for requests
@@ -42,8 +42,8 @@ class Context {
 
 		this.validationErrors = [];
 
-		if (!Services)
-			Services = require("./services");
+		if (!ServiceLoader)
+			ServiceLoader = require("./serviceLoader");
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Context {
 	 * @memberOf Context
 	 */
 	services(serviceName) {
-		return Services.get(serviceName);
+		return ServiceLoader.get(serviceName);
 	}
 
 	/**

@@ -31,7 +31,18 @@ module.exports = {
 			handler(ctx) {
 				let filter = {};
 
-				let query = Tag.find(filter);
+				let query = this.collection.find(filter);
+				return ctx.queryPageSort(query).exec().then( (docs) => {
+					return this.toJSON(docs);
+				});
+			}
+		},
+		findOne: {
+			cache: true,
+			permission: C.PERM_PUBLIC,
+			handler(ctx) {
+				let filter = ctx.params.filter;
+				let query = this.collection.findOne(filter);
 				return ctx.queryPageSort(query).exec().then( (docs) => {
 					return this.toJSON(docs);
 				});
@@ -105,7 +116,7 @@ module.exports = {
 		remove(ctx) {
 			ctx.assertModelIsExist(ctx.t("app:TagNotFound"));
 
-			return Tag.remove({ _id: ctx.modelID })
+			return this.collection.remove({ _id: ctx.modelID })
 			.then(() => {
 				return ctx.model;
 			})

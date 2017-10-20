@@ -1,7 +1,7 @@
 "use strict";
 
-let logger = require("./logger");
-let config = require("../config");
+let logger = require("../logger");
+let config = require("../../config");
 
 let EventEmitter = require("events").EventEmitter;
 let path = require("path");
@@ -11,10 +11,10 @@ let _ = require("lodash");
 let chalk = require("chalk");
 let express = require("express");
 
-let C = require("./constants");
-let Context = require("./context");
-let auth = require("./auth/helper");
-let response = require("./response");
+let C = require("../constants");
+let Context = require("../context");
+let auth = require("../auth/helper");
+let response = require("../response");
 
 let listEndpoints = require("express-list-endpoints");
 let Table = require("cli-table2");
@@ -22,7 +22,7 @@ let Table = require("cli-table2");
 let GraphQLScalarType = require("graphql").GraphQLScalarType;
 let Kind = require("graphql/language").Kind;
 
-let Service = require("./service");
+let EntityService = require("./entityService");
 
 /* global WEBPACK_BUNDLE */
 if (!WEBPACK_BUNDLE) require("require-webpack-compat")(module, require);
@@ -30,9 +30,9 @@ if (!WEBPACK_BUNDLE) require("require-webpack-compat")(module, require);
 /**
  * Service handler class
  */
-class Services extends EventEmitter {
+class ServiceLoader extends EventEmitter {
   /**
-	 * Constructor of Service
+	 * Constructor of ServiceLoader
 	 */
   constructor() {
     super();
@@ -55,58 +55,86 @@ class Services extends EventEmitter {
     self.app = app;
     self.db = db;
 
-    let addService = function(serviceSchema) {
-      let service = new Service(serviceSchema, app, db);
+    let addEntityService = function(serviceSchema) {
+      let service = new EntityService(serviceSchema, app, db);
       self.services[service.name] = service;
     };
 
+	this.loadEmbeddedServices(addEntityService);
+	this.loadBusinessServices(addEntityService);
+
+    this.initialisationServices();
+  }
+
+  /**
+   * Load the business services from the applogic folder.
+   * @param {*} addEntityService
+   */
+  loadBusinessServices(addEntityService) {
     if (
       WEBPACK_BUNDLE ||
-      fs.existsSync(path.join(__dirname, "..", "services"))
+      fs.existsSync(path.join(__dirname, "..", "..", "applogic", "modules"))
     ) {
       logger.info("");
-      logger.info(chalk.bold("Search built-in services..."));
-
-      let modules = require.context("../services", true, /\.js$/);
-      if (modules) {
-        modules.keys().map(function(module) {
-          logger.info(
-            "  Load",
-            path.relative(path.join(__dirname, "..", "services"), module),
-            "service..."
-          );
-          addService(modules(module));
-        });
-      }
-    }
-
-    if (
-      WEBPACK_BUNDLE ||
-      fs.existsSync(path.join(__dirname, "..", "applogic", "modules"))
-    ) {
-      logger.info("");
-      logger.info(chalk.bold("Search applogic services..."));
+      logger.info(chalk.bold("Search Business Services..."));
 
       let modules = require.context(
-        "../applogic/modules",
+        "../../applogic/modules",
         true,
         /service\.js$/
       );
       if (modules) {
         modules.keys().map(function(module) {
           logger.info(
-            "  Load",
+            "  Load Business ",
             path.relative(
-              path.join(__dirname, "..", "applogic", "modules"),
+              path.join(__dirname, "..", "..", "applogic", "modules"),
               module
             ),
             "service..."
           );
-          addService(modules(module));
+          addEntityService(modules(module));
         });
       }
     }
+  }
 
+  /**
+   * Load the embedded services using a callback to perform the addition.
+   * @param {*} addEntityService the callback to add service.
+   */
+  loadEmbeddedServices(addEntityService) {
+    logger.debug(
+      chalk.bold("Loading embedded services from... ") +
+        path.join(__dirname, "..", "..", "services")
+    );
+    // Loading embedded server services
+    if (
+      WEBPACK_BUNDLE ||
+      fs.existsSync(path.join(__dirname, "..", "..", "services"))
+    ) {
+      logger.info("");
+      logger.info(chalk.bold("Search built-in services..."));
+
+      let modules = require.context("../../services", true, /\.js$/);
+      if (modules) {
+        modules.keys().map(function(module) {
+          logger.info(
+            "  Load",
+            path.relative(path.join(__dirname, "..", "..", "services"), module),
+            "service..."
+          );
+          addEntityService(modules(module));
+        });
+      }
+    }
+  }
+
+  /**
+   * Initialize the services.
+   */
+  initialisationServices() {
+    let self = this;
     // Call `init` of services
     _.forIn(self.services, service => {
       if (_.isFunction(service.$schema.init)) {
@@ -126,8 +154,9 @@ class Services extends EventEmitter {
   registerRoutes(app) {
     let self = this;
 
-    //logger.info("Register routes ", this.services);
-    _.forIn(this.services, (service, name) => {
+
+	_.forIn(this.services, (service, name) => {
+		logger.info("Register routes for %s", name);
       if (service.$settings.rest !== false && service.actions) {
         let router = express.Router();
 
@@ -139,9 +168,6 @@ class Services extends EventEmitter {
         let lastRoutes = [];
 
         _.forIn(service.actions, (actionFunc, name) => {
-          console.log("Service ------------");
-          console.log(actionFunc);
-          console.log(name);
 
           let action = actionFunc.settings;
           action.handler = actionFunc;
@@ -578,6 +604,7 @@ class Services extends EventEmitter {
 	 * Get a service by name
 	 * @param  {String} serviceName Name of service
 	 * @return {Object}             Service instance
+	 * @memberOf ServiceLoader
 	 */
   get(serviceName) {
     return this.services[serviceName];
@@ -586,13 +613,13 @@ class Services extends EventEmitter {
   /**
 	 * Print service info to the console (in dev mode)
 	 *
-	 * @memberOf Services
+	 * @memberOf ServiceLoader
 	 */
   printServicesInfo() {
     let endPoints = listEndpoints(this.app);
-    //logger.debug(endPoints);
+    logger.debug("Endpoints are : ", endPoints);
   }
 }
 
 // Export instance of class
-module.exports = new Services();
+module.exports = new ServiceLoader();

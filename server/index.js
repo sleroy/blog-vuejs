@@ -36,9 +36,9 @@ app.listen(config.port, config.ip, function() {
 
 	logger.info("----------------------------------------------");
 
-	let Service = require("./core/services");
+	let ServiceLoader = require("./core/serviceLoader");
 	if (config.isDevMode)
-		Service.printServicesInfo();
+		ServiceLoader.printServicesInfo();
 });
 
 

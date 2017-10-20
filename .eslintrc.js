@@ -17,7 +17,7 @@ module.exports = {
     ],
     "rules": {
         "indent": [
-            "warn",
+            "off",
             "tab"
         ],
         "quotes": [

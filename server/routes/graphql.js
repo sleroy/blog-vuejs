@@ -9,15 +9,15 @@ let graphqlTools 		= require("graphql-tools");
 
 module.exports = function(app, db) {
 
-	let servicesSchema = require("../core/services").registerGraphQLSchema();
+	let servicesSchema = require("../core/serviceLoader").registerGraphQLSchema();
 	if (!servicesSchema) return;
-	
-	let schema = graphqlTools.makeExecutableSchema({ 
-		typeDefs: servicesSchema.schema, 
+
+	let schema = graphqlTools.makeExecutableSchema({
+		typeDefs: servicesSchema.schema,
 		resolvers: servicesSchema.resolvers,
 		logger: config.isDevMode() ? logger : undefined
 		//allowUndefinedInResolve: false
-	});	
+	});
 	//console.log(schema);
 
 	// Register graphql server
@@ -27,7 +27,7 @@ module.exports = function(app, db) {
 			// None of our app's queries are this long
 			// Probably indicates someone trying to send an overly expensive query
 			throw new Error("Query too large.");
-		}	
+		}
 		// logger.debug("GraphQL request:", query);
 
 		return {
@@ -46,8 +46,8 @@ module.exports = function(app, db) {
 			formatError(e) {
 				//console.dir(e);
 				return {
-					status: e.originalError ? e.originalError.status : 400, 
-					type: e.originalError ? e.originalError.type : null, 
+					status: e.originalError ? e.originalError.status : 400,
+					type: e.originalError ? e.originalError.type : null,
 					message: e.message,
 					locations: e.locations,
 					path: e.path
@@ -64,13 +64,13 @@ module.exports = function(app, db) {
 			formatParams?: Function,
 
 			// function applied to each response before returning data to clients
-			formatResponse?: Function,		
-			*/	
+			formatResponse?: Function,
+			*/
 		};
 	}));
 
 	app.use("/graphiql", graphiqlExpress({
 		endpointURL: "/graphql",
-	}));	
+	}));
 
 };
