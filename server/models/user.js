@@ -10,10 +10,10 @@ let _ = require("lodash");
 let crypto = require("crypto");
 let bcrypt = require("bcrypt-nodejs");
 
-let db = require("../core/mongo");
+let db = require("../core/express/mongo");
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
-let hashids = require("../libs/hashids")("users");
+let hashids = require("../core/libs/hashids")("users");
 let autoIncrement = require("mongoose-auto-increment");
 
 let schemaOptions = {

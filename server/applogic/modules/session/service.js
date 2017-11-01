@@ -92,8 +92,8 @@ fragment personFields on Person {
   avatar
   lastLogin
   locale
-  
-  posts(sort: "-createdAt") {
+
+  hexoposts(sort: "-createdAt") {
     code
     title
   }

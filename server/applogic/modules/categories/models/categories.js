@@ -6,10 +6,10 @@ let logger = require("../../../../core/logger");
 
 let _ = require("lodash");
 
-let db = require("../../../../core/mongo");
+let db = require("../../../../core/express/mongo");
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
-let hashids = require("../../../../libs/hashids")("categories");
+let hashids = require("../../../../core/libs/hashids")("categories");
 let autoIncrement = require("mongoose-auto-increment");
 
 let schemaOptions = {

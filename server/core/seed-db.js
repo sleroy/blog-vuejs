@@ -5,7 +5,7 @@ let config 			= require("../config");
 let C 				= require("./constants");
 
 let _ 				= require("lodash");
-let tokgen 			= require("../libs/tokgen");
+let tokgen 			= require("../core/libs/tokgen");
 let fakerator		= require("fakerator")();
 
 let User 			= require("../models/user");
@@ -40,7 +40,7 @@ module.exports = function() {
 				roles: [C.ROLE_USER],
 				verified: true,
 				apiKey: tokgen()
-			});			
+			});
 			users.push(test.save());
 
 			return Promise.all(users)
@@ -59,9 +59,9 @@ module.exports = function() {
 							verified: true
 							//apiKey: tokgen()
 						});
-						users.push(user.save());					
+						users.push(user.save());
 					}));
-				}				
+				}
 			})
 			.then(() => {
 				logger.warn("Default users created!");
@@ -73,5 +73,5 @@ module.exports = function() {
 		return require("../applogic/libs/seed-db")();
 	}).then(() => {
 		logger.debug("Seeding done!");
-	});	
+	});
 };

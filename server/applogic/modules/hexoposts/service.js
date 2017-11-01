@@ -7,7 +7,7 @@ let C = require("../../../core/constants");
 let _ = require("lodash");
 
 let HexoPost = require("./models/hexopost");
-let slug = require("../../../../server/libs/slug");
+let slug = require("../../../core/libs/slug");
 
 module.exports = {
   settings: {
@@ -21,22 +21,28 @@ module.exports = {
     role: "user",
     collection: HexoPost,
     modelPropFilter:
-      "code title excerpt createdAt updatedAt votes voters views author more published comments permalink link tags categories slug",
+      "code title excerpt createdAt updatedAt votes voters views author more published comments permalink link tags categories slug thumbnailImageUrl thumbnailImagePosition coverImage coverCaption autoThumbnailImage content day month year",
+
     modelPopulates: {
       author: { service: "persons" },
       voters: { service: "persons" },
       tags: { service: "tags", ref: ["id", "tag_id"] },
-      categories: { service: "categories", ref: ["id", "category_id"] }
+      categories: { service: "categories", ref: ["code", "category_id"] }
     }
   },
 
   actions: {
     find: {
-      cache: true,
+      cache: false,
       permission: C.PERM_PUBLIC,
+      mapping: {
+        path: "/",
+        method: "get"
+      },
       handler(ctx) {
-        let filter = {};
-
+        logger.info("Filtering received ", ctx.params.filter);
+        logger.info("Params received ", ctx.params);
+        let filter = ctx.params;
         if (ctx.params.filter == "my") filter.author = ctx.user.id;
         else if (ctx.params.author != null) {
           filter.author = this.personService.decodeID(ctx.params.author);
@@ -60,6 +66,10 @@ module.exports = {
     get: {
       cache: true, // if true, we don't increment the views!
       permission: C.PERM_PUBLIC,
+      mapping: {
+        path: "/:id",
+        method: "get"
+      },
       handler(ctx) {
         ctx.assertModelIsExist(ctx.t("app:HexoPostNotFound"));
 
@@ -75,6 +85,10 @@ module.exports = {
     },
 
     create: {
+      mapping: {
+        path: "/",
+        method: "post"
+      },
       handler(ctx) {
         this.validateParams(ctx, true);
 
@@ -117,7 +131,7 @@ module.exports = {
 
             if (ctx.params.content != null) doc.content = ctx.params.content;
 
-            doc.editedAt = Date.now();
+            doc.updatedAt = Date.now();
             return doc.save();
           })
           .then(doc => {
@@ -152,7 +166,8 @@ module.exports = {
     removeAll: {
       permission: C.PERM_PUBLIC,
       handler(ctx) {
-        return HexoPost.remove({})
+        return this.collection
+          .remove({})
           .then(() => {
             return ctx.model;
           })
@@ -168,16 +183,16 @@ module.exports = {
       cache: true, // if true, we don't increment the views!
       handler(ctx) {
         const pageOptions = {
-          page: Math.min(parseInt(ctx.params.page) || 0, 0),
+          skip: parseInt(ctx.params.skip),
           limit: Math.min(
             parseInt(ctx.params.limit) || config.paging.default_limit,
             config.paging.max_limit
           )
         };
-
+        logger.info("Filtering ", pageOptions);
         return this.collection
           .find({}, "code")
-          .skip(pageOptions.page * pageOptions.limit)
+          .skip(pageOptions.skip)
           .limit(pageOptions.limit)
           .sort("-createdAt")
           .exec()
@@ -200,7 +215,7 @@ module.exports = {
           .count()
           .exec()
           .then(doc => {
-            return this.toJSON(Math.round(doc/limit));
+            return Math.round(doc / limit);
           });
       }
     },

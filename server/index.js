@@ -13,12 +13,12 @@ logger.info();
 
 logger.info(chalk.bold("Application root path: ") + global.rootPath);
 
-let init		= require("./core/init");
-let db 			= require("./core/mongo")();
-let app 		= require("./core/express")(db);
-let agenda 		= require("./core/agenda");
+let init		= require("./core/express/init");
+let db 			= require("./core/express/mongo")();
+let app 		= require("./core/express/express")(db);
+let agenda 		= require("./services/agenda");
 
-require("./libs/gracefulExit");
+require("./core/libs/gracefulExit");
 
 app.listen(config.port, config.ip, function() {
 
@@ -32,11 +32,11 @@ app.listen(config.port, config.ip, function() {
 	logger.info("Redis:\t\t" + (config.redis.enabled ? config.redis.uri : "Disabled"));
 	logger.info("");
 
-	require("./libs/sysinfo")();
+	require("./core/libs/sysinfo")();
 
 	logger.info("----------------------------------------------");
 
-	let ServiceLoader = require("./core/serviceLoader");
+	let ServiceLoader = require("./services/serviceLoader");
 	if (config.isDevMode)
 		ServiceLoader.printServicesInfo();
 });

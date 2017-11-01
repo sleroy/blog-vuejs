@@ -9,7 +9,7 @@ let async 		= require("async");
 let passport 	= require("passport");
 let express 	= require("express");
 
-let mailer 		= require("../libs/mailer");
+let mailer 		= require("../services/mailing/mailer");
 let User 		= require("../models/user");
 let Response 	= require("../core/response");
 

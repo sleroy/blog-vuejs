@@ -3,7 +3,7 @@
 let logger 			= require("./logger");
 let config 			= require("../config");
 let response		= require("./response");
-let tokgen			= require("../libs/tokgen");
+let tokgen			= require("./libs/tokgen");
 
 let C 				= require("./constants");
 let Sockets   		= require("./sockets");
@@ -43,7 +43,7 @@ class Context {
 		this.validationErrors = [];
 
 		if (!ServiceLoader)
-			ServiceLoader = require("./serviceLoader");
+			ServiceLoader = require("../services/serviceLoader");
 	}
 
 	/**

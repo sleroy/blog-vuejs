@@ -27,7 +27,7 @@ module.exports = function(app, db) {
 
 	// Load services routes
 	//require("../applogic/routeHandlers")(app, db);
-	let serviceLoader = require("../core/serviceLoader");
+	let serviceLoader = require("../services/serviceLoader");
 	serviceLoader.registerRoutes(app, db);
 
 	// Handle Graphql request

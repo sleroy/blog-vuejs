@@ -65,7 +65,6 @@ module.exports = {
 				avatar: String
 				lastLogin: Timestamp
 
-				posts(limit: Int, offset: Int, sort: String): [Post]
 				hexoposts(limit: Int, offset: Int, sort: String): [HexoPost]
 			}
 		`,
@@ -80,13 +79,8 @@ module.exports = {
       },
 
       Person: {
-        posts(person, args, context) {
+        hexoposts(person, args, context) {
           let ctx = context.ctx;
-          let postService = ctx.services("posts");
-          if (postService)
-            return postService.actions.find(
-              ctx.copy(Object.assign(args, { author: person.code }))
-            );
 
           let hexopostService = ctx.services("hexoposts");
           if (hexopostService)

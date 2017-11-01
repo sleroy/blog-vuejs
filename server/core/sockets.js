@@ -73,7 +73,7 @@ let self = {
 			});
 		});
 
-		let serviceLoader = require("./serviceLoader");
+		let serviceLoader = require("../services/serviceLoader");
 		serviceLoader.registerSockets(IO, self);
 
 		return server;
@@ -160,7 +160,7 @@ let self = {
 		// Add an event listener to the 'connection' event
 		io.on("connection", function (socket) {
 			if (!Services)
-				Services = require("./serviceLoader");
+				Services = require("../services/serviceLoader");
 
 			Services.emit("socket:connect", socket);
 			self.addOnlineUser(socket);

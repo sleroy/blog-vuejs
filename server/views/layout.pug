@@ -7,11 +7,14 @@ html(lang=language)
 		block styles
 
 	body
-		include parts/ga	
-
-		.bg
-		.bg-overlay
-			
-		block content
-			
+		div
+			header.blog-masthead
+				block nav
+				block header
+			main.blog-main
+				.container
+				block container
+					copyright()
+			footer.blog-footer
+				block copyright
 		block scripts

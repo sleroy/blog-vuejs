@@ -9,7 +9,7 @@ let graphqlTools 		= require("graphql-tools");
 
 module.exports = function(app, db) {
 
-	let servicesSchema = require("../core/serviceLoader").registerGraphQLSchema();
+	let servicesSchema = require("../services/serviceLoader").registerGraphQLSchema();
 	if (!servicesSchema) return;
 
 	let schema = graphqlTools.makeExecutableSchema({

@@ -4,7 +4,7 @@ let path 	= require("path");
 let fs 		= require("fs");
 let _ 		= require("lodash");
 let chalk	= require("chalk");
-let tokgen	= require("../libs/tokgen");
+let tokgen	= require("../core/libs/tokgen");
 
 global.rootPath = path.normalize(path.join(__dirname, "..", ".."));
 console.log("process.argv: " + process.argv);
@@ -17,7 +17,7 @@ if (WEBPACK_BUNDLE) {
 	else
 		bundleFullPath = process.cwd();
 		// bundleFullPath = path.dirname(process.argv[0]);
-	
+
 	global.rootPath = path.normalize(path.join(path.dirname(bundleFullPath), ".."));
 }
 
@@ -27,7 +27,7 @@ module.exports = {
 
 	isDevMode() {
 		return !process.env.NODE_ENV || process.env.NODE_ENV === "development";
-	}, 
+	},
 
 	isProductionMode() {
 		return process.env.NODE_ENV === "production";
@@ -41,7 +41,7 @@ module.exports = {
 // Load external configuration if exists `config.js`
 let externalConfig = {};
 
-const extConfigFile = path.join(global.rootPath, "config.js"); 
+const extConfigFile = path.join(global.rootPath, "config.js");
 
 try {
 	if (!fs.existsSync(extConfigFile)) {
@@ -64,10 +64,10 @@ try {
 		};
 
 		fs.writeFileSync(extConfigFile, compiled(changes));
-		
-		console.warn(chalk.green.bold("The `config.js` file created! Please update the settings in the file!"));		
+
+		console.warn(chalk.green.bold("The `config.js` file created! Please update the settings in the file!"));
 	}
-	
+
 	if (WEBPACK_BUNDLE) {
 		externalConfig = require("../../config.js");
 	} else {
