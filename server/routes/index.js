@@ -7,11 +7,7 @@ let path = require("path");
 module.exports = function(app, db) {
   // Index page
   app.get("/", function(req, res) {
-    if (req.user != null)
-      res.render("main", {
-        user: req.user
-      });
-    else res.render("index");
+	res.render("index");
   });
 
   // Index page

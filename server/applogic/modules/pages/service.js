@@ -67,9 +67,9 @@ module.exports = {
         method: "get"
       },
       handler(ctx) {
-        ctx.assertModelIsExist(ctx.t("app:HexoPostNotFound"));
+        ctx.assertModelIsExist(ctx.t("app:PageNotFound"));
 
-        return Page.findByIdAndUpdate(ctx.modelID, { $inc: { views: 1 } })
+        return Page.findByIdAndUpdate(ctx.modelID)
           .exec()
           .then(doc => {
             return this.toJSON(doc);
@@ -88,15 +88,15 @@ module.exports = {
       handler(ctx) {
         this.validateParams(ctx, true);
 
-        console.info("Invocation of the post creation");
+        console.info("Invocation of the page creation");
 
-        let postData = ctx.params;
-        postData.author = ctx.user.id;
-        postData.slug = slug.slugIfMissing(postData.title, postData.slug);
+        let pageData = ctx.params;
+        pageData.author = ctx.user.id;
+        pageData.slug = slug.slugIfMissing(pageData.title, pageData.slug);
 
-        let post = new Page(postData);
+        let page = new Page(pageData);
 
-        return post
+        return page
           .save()
           .then(doc => {
             return this.toJSON(doc);
@@ -114,7 +114,7 @@ module.exports = {
     update: {
       permission: C.PERM_OWNER,
       handler(ctx) {
-        ctx.assertModelIsExist(ctx.t("app:HexoPostNotFound"));
+        ctx.assertModelIsExist(ctx.t("app:PageNotFound"));
         this.validateParams(ctx);
 
         return this.collection
@@ -146,7 +146,7 @@ module.exports = {
     remove: {
       permission: C.PERM_OWNER,
       handler(ctx) {
-        ctx.assertModelIsExist(ctx.t("app:HexoPostNotFound"));
+        ctx.assertModelIsExist(ctx.t("app:PageNotFound"));
 
         return Page.remove({ _id: ctx.modelID })
           .then(() => {
@@ -188,14 +188,14 @@ module.exports = {
         ctx
           .validateParam("title")
           .trim()
-          .notEmpty(ctx.t("app:HexoPostTitleCannotBeEmpty"))
+          .notEmpty(ctx.t("app:PageTitleCannotBeEmpty"))
           .end();
 
       if (strictMode || ctx.hasParam("content"))
         ctx
           .validateParam("content")
           .trim()
-          .notEmpty(ctx.t("app:HexoPostContentCannotBeEmpty"))
+          .notEmpty(ctx.t("app:PageContentCannotBeEmpty"))
           .end();
 
       if (ctx.hasValidationErrors())
@@ -211,7 +211,7 @@ module.exports = {
 	 */
   ownerChecker(ctx) {
     return new Promise((resolve, reject) => {
-      ctx.assertModelIsExist(ctx.t("app:HexoPostNotFound"));
+      ctx.assertModelIsExist(ctx.t("app:PageNotFound"));
 
       if (ctx.model.author.code == ctx.user.code || ctx.isAdmin()) resolve();
       else reject();
