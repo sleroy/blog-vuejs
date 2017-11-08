@@ -28,12 +28,12 @@ module.exports = function(app, db) {
 			// Probably indicates someone trying to send an overly expensive query
 			throw new Error("Query too large.");
 		}
-		// logger.debug("GraphQL request:", query);
+		//logger.debug("GraphQL request:", query);
 
 		return {
-			//graphiql: config.isDevMode(),
-			//pretty: config.isDevMode(),
-			//printErrors: config.isDevMode(),
+			graphiql: config.isDevMode(),
+			pretty: config.isDevMode(),
+			printErrors: config.isDevMode(),
 			schema: schema,
 			context: {
 				req: req,

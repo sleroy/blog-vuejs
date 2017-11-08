@@ -1,7 +1,8 @@
 export default {
   menu: {
     Home: '/',
-    Archives: '/archives',
+	Archives: '/archives',
+	Tags: '/tags',
     GitHub: 'https: //github.com/Dreyer',
     RSS: '/atom.xml'
   },

@@ -21,7 +21,7 @@ module.exports = {
     role: "user",
     collection: HexoPost,
     modelPropFilter:
-      "code title excerpt createdAt updatedAt votes voters views author more published comments permalink link tags categories slug thumbnailImageUrl thumbnailImagePosition coverImage coverCaption autoThumbnailImage content day month year",
+      "code title excerpt createdAt updatedAt votes voters views author more comments permalink link tags categories slug thumbnailImageUrl thumbnailImagePosition coverImage coverCaption autoThumbnailImage content day month year",
 
     modelPopulates: {
       author: { service: "persons" },
@@ -164,7 +164,7 @@ module.exports = {
     },
 
     removeAll: {
-      permission: C.PERM_PUBLIC,
+      permission: C.PERM_LOGGEDIN,
       handler(ctx) {
         return this.collection
           .remove({})
@@ -175,6 +175,84 @@ module.exports = {
             this.notifyModelChanges(ctx, "removedAll", json);
             return json;
           });
+      }
+    },
+    archives: {
+      permission: C.PERM_PUBLIC,
+      cache: true, // if true, we don't increment the views!
+      handler(ctx) {
+        const pipeline = [];
+
+        pipeline.push({
+          $project: {
+            _id: 1,
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+            day: { $dayOfMonth: "$createdAt" },
+            createdAt: 1,
+            updatedAt: 1,
+            title: 1,
+            slug: 1,
+            excerpt: 1,
+            votes: 1,
+            voters: 1,
+            views: 1,
+            thumbnailImageUrl: 1,
+            thumbnailImagePosition: 1,
+            coverImage: 1,
+            coverCaption: 1,
+            autoThumbnailImage: 1
+          }
+        });
+
+        if (ctx.params.year && ctx.params.month) {
+          const filterDate = {
+            year: parseInt(ctx.params.year),
+            month: parseInt(ctx.params.month)
+          };
+          pipeline.push({ $match: filterDate });
+        }
+
+        if (
+          ctx.params.aggregate === undefined ||
+          parseInt(ctx.params.aggregate) === 1
+        ) {
+          logger.info("Aggregating informations");
+          pipeline.push({
+            $group: {
+              _id: {
+                year: { $year: "$createdAt" },
+                month: { $month: "$createdAt" }
+              },
+              results: {
+                $push: {
+                  slug: "$slug",
+                  title: "$title",
+                  year: "$year",
+                  month: "$month",
+                  day: "$day"
+                }
+              }
+            }
+          });
+        } else {
+          pipeline.push({
+            $group: {
+              _id: {
+                year: { $year: "$createdAt" },
+                month: { $month: "$createdAt" }
+              }
+            }
+          });
+        }
+        pipeline.push({ $sort: { "_id.year": 1, "_id.month": 1 } });
+
+        return this.collection
+          .aggregate(pipeline)
+          .then(doc => {
+            return doc;
+          })
+          .catch(err => logger.error("Could not process the query", err));
       }
     },
 
@@ -199,6 +277,69 @@ module.exports = {
           .then(doc => {
             return this.toJSON(doc);
           });
+      }
+    },
+
+    categories: {
+      permission: C.PERM_PUBLIC,
+      cache: true, // if true, we don't increment the views!
+      handler(ctx) {
+        const category = ctx.params.category;
+        const self = this;
+        const categoryService = this.categoryService.collection;
+        return categoryService
+          .findOne({ slug: category })
+          .select("id category_id")
+          .exec()
+          .then(res => {
+            logger.info("Category ", res);
+            return self.collection
+              .find(
+                { categories: { $in: [res.category_id] } },
+                "code slug title"
+              )
+              .exec()
+              .then(doc => {
+                return doc;
+              });
+          })
+          .then(doc => {
+            return self.toJSON(doc);
+          })
+          .then(json => {
+            return this.populateModels(json);
+          })
+          .catch(err => logger.error("Could not process the query", err));
+      }
+    },
+
+    tags: {
+      permission: C.PERM_PUBLIC,
+      cache: true, // if true, we don't increment the views!
+      handler(ctx) {
+        const tag = ctx.params.tag;
+        const self = this;
+        const tagService = this.tagService.collection;
+        return tagService
+          .findOne({ slug: tag })
+          .select("id tag_id")
+          .exec()
+          .then(res => {
+            logger.info("Tag ", res);
+            return self.collection
+              .find({ tags: { $in: [res.tag_id] } }, "code slug title")
+              .exec()
+              .then(doc => {
+                return doc;
+              });
+          })
+          .then(doc => {
+            return self.toJSON(doc);
+          })
+          .then(json => {
+            return this.populateModels(json);
+          })
+          .catch(err => logger.error("Could not process the query", err));
       }
     },
 
@@ -352,8 +493,8 @@ module.exports = {
 
   graphql: {
     query: `
-			posts(limit: Int, offset: Int, sort: String): [HexoPost]
-			post(code: String): HexoPost
+			hexoposts(limit: Int, offset: Int, sort: String): [HexoPost]
+			hexopost(code: String): HexoPost
 		`,
 
     types: `
@@ -367,31 +508,40 @@ module.exports = {
 				votes: Int,
 				voters(limit: Int, offset: Int, sort: String): [Person]
 				createdAt: Timestamp
-				published: Timestamp
+				updatedAt: Timestamp
+				more: String,
+				comments: Boolean
+				permalink: String
+				link: String
+				tags: [Tag]
+				categories: [Category]
+				slug: String
+				thumbnailImageUrl: String
+				thumbnailImagePosition: String
+				coverImage: String
+				coverCaption: String
+				autoThumbnailImage: Boolean
+				content: String
+				day: Int
+				month: Int
+				year: Int
 			}
 		`,
 
-    mutation: `
-			postCreate(title: String!, content: String!): HexoPost
-			postUpdate(code: String!, title: String, content: String): HexoPost
-			postRemove(code: String!): HexoPost
-
-			postVote(code: String!): HexoPost
-			postUnvote(code: String!): HexoPost
-		`,
+    mutation: " ",
 
     resolvers: {
       Query: {
-        posts: "find",
-        post: "get"
+        hexoposts: "find",
+        hexopost: "get"
       },
 
       Mutation: {
-        postCreate: "create",
+        /*postCreate: "create",
         postUpdate: "update",
         postRemove: "remove",
         postVote: "vote",
-        postUnvote: "unvote"
+        postUnvote: "unvote"*/
       }
     }
   }

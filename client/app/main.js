@@ -21,7 +21,7 @@ import App from "./core/App";
 import Nav from "./core/components/partial/nav";
 import copyright from "./core/components/partial/copyright";
 import postPaginator from "./core/components/partial/postPaginator";
-import postList from "./core/components/partial/post/postList";
+import postList from "./modules/post/postList";
 import blogAside from "./core/components/partial/blog-aside";
 
 

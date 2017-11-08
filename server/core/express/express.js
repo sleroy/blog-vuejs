@@ -31,7 +31,9 @@ let i18next = require("i18next");
 let i18nextExpress = require("i18next-express-middleware");
 let i18nextFs = require("i18next-node-fs-backend");
 
-let serverFolder = path.normalize(path.join(config.rootPath, "server"));
+const serverFolder = path.normalize(path.join(config.rootPath, "server"));
+
+const sitemap = require("express-sitemap")();
 
 /**
  * Initialize local variables
@@ -106,7 +108,7 @@ function initMiddleware(app) {
         logger.info("origin is ", origin);
         logger.info("WhiteList ", config.cors.whitelist);
 
-        if (!origin || config.cors.whitelist.indexOf(origin) !== -1) {
+        if (!origin || config.cors.whitelist.indexOf(origin) !== -1) {
           callback(null, true);
         } else {
           callback(new Error("Not allowed by CORS : " + origin));
@@ -376,6 +378,7 @@ module.exports = function(db) {
 
   // Load routes
   require("../../routes")(app, db);
+
 
   return server;
 };

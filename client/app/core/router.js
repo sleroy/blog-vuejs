@@ -5,7 +5,6 @@ import VueRouter from "vue-router";
 
 import Home from "../modules/home";
 import Counter from "../modules/counter";
-import Devices from "../modules/devices";
 import Posts from "../modules/posts";
 import Profile from "../modules/profile";
 

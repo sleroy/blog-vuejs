@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import config from '../../../config/global';
+import config from '../../config/global';
 import * as moment from 'moment';
 import postCategories from './postCategories';
 

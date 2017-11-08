@@ -26,7 +26,7 @@
 </template>
 
 <script>
-  import * as postService from '../../../services/postService';
+  import * as postService from '../../services/postService';
   import postTitle from './postTitle';
   import postInfo from './postInfo';
   import * as moment from 'moment';

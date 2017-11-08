@@ -5,7 +5,7 @@
 
 <script>
   import postSummary from './postSummary';
-  import * as postService from '../../../services/postService';
+  import * as postService from '../../services/postService';
 
   export default {
     props: [
