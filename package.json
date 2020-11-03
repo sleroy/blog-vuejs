@@ -69,7 +69,7 @@
     "graphql": "^0.11.7",
     "graphql-server-express": "^1.2.0",
     "graphql-subscriptions": "^0.5.4",
-    "graphql-tools": "^2.6.1",
+    "graphql-tools": "^2.24.0",
     "hashids": "1.1.2",
     "helmet": "3.9.0",
     "helmet-crossdomain": "0.1.0",
