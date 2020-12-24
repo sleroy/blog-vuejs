@@ -45,7 +45,7 @@
   "dependencies": {
     "agenda": "1.0.3",
     "async": "2.5.0",
-    "axios": "0.17.0",
+    "axios": "0.21.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "1.18.2",
     "chalk": "2.3.0",
