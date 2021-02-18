@@ -73,7 +73,7 @@
     "hashids": "1.1.2",
     "helmet": "3.9.0",
     "helmet-crossdomain": "0.1.0",
-    "i18next": "10.0.7",
+    "i18next": "19.8.5",
     "i18next-express-middleware": "1.0.7",
     "i18next-node-fs-backend": "1.0.0",
     "ioredis": "3.2.1",
