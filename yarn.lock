@@ -3957,9 +3957,10 @@ graphql@^0.11.7:
   dependencies:
     iterall "1.1.3"
 
-graylog2@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/graylog2/-/graylog2-0.1.3.tgz#77297147d5b52b20e80640cd1f6af85d720ad921"
+graylog2@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/graylog2/-/graylog2-0.2.1.tgz#fcb0775766fb6d7d6f5fef3ff873326b8b1d35a9"
+  integrity sha512-vjysakwOhrAqMeIvSK0WZcmzKvkpxY6pCfT9QqtdSVAidPFIynuin7adqbdFp9MCCTbTE402WIxvg8cph5OWTA==
 
 growl@1.10.3:
   version "1.10.3"
@@ -5356,17 +5357,22 @@ lodash@3.9.3:
   version "3.9.3"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.9.3.tgz#0159e86832feffc6d61d852b12a953b99496bd32"
 
-lodash@4.17.4, lodash@^4.11.1, lodash@^4.17.2, lodash@^4.17.4:
-  version "4.17.4"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+lodash@4.17.21, lodash@^4.17.5:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
-"lodash@^3.0.1 || ^2.0.0", lodash@^3.10.1, lodash@^3.7.0:
+"lodash@^3.0.1 || ^2.0.0", lodash@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
 lodash@^4.0.0, lodash@^4.14.0, lodash@^4.16.0, lodash@^4.3.0:
   version "4.17.3"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.3.tgz#557ed7d2a9438cac5fd5a43043ca60cb455e01f7"
+
+lodash@^4.11.1, lodash@^4.17.2, lodash@^4.17.4:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 lodash@~4.16.4:
   version "4.16.6"
@@ -9774,13 +9780,14 @@ winston-daily-rotate-file@1.7.2:
   dependencies:
     mkdirp "0.5.1"
 
-winston-graylog2@0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/winston-graylog2/-/winston-graylog2-0.7.0.tgz#729d40069c37d9d1886c456495db97b02528aa57"
+winston-graylog2@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/winston-graylog2/-/winston-graylog2-0.7.1.tgz#c414a1de6d4035a908718ee16162e66b4355b40b"
+  integrity sha512-/va4arkfDSfz2f2GeXaSsfRWQlUAqtKUcLMtIHOWXEIkqU3YHSSAO5j73ZNhMCGTfr/4yPSyXo1VStkf72l2jA==
   dependencies:
-    graylog2 "^0.1.3"
-    lodash "^3.7.0"
-    winston "^1.0.0"
+    graylog2 "^0.2.1"
+    lodash "^4.17.5"
+    winston "^2.4.0"
 
 winston-loggly-bulk@2.0.1:
   version "2.0.1"
@@ -9813,7 +9820,7 @@ winston-papertrail@1.0.5:
   dependencies:
     glossy "^0.1.7"
 
-winston@1.0.x, winston@^1.0.0:
+winston@1.0.x:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/winston/-/winston-1.0.2.tgz#351c58e2323f8a4ca29a45195aa9aa3b4c35d76f"
   dependencies:
@@ -9839,6 +9846,18 @@ winston@2.4.0:
 winston@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/winston/-/winston-2.3.1.tgz#0b48420d978c01804cf0230b648861598225a119"
+  dependencies:
+    async "~1.0.0"
+    colors "1.0.x"
+    cycle "1.0.x"
+    eyes "0.1.x"
+    isstream "0.1.x"
+    stack-trace "0.0.x"
+
+winston@^2.4.0:
+  version "2.4.5"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-2.4.5.tgz#f2e431d56154c4ea765545fc1003bd340c95b59a"
+  integrity sha512-TWoamHt5yYvsMarGlGEQE59SbJHqGsZV8/lwC+iCcGeAe0vUaOh+Lv6SYM17ouzC/a/LB1/hz/7sxFBtlu1l4A==
   dependencies:
     async "~1.0.0"
     colors "1.0.x"
