@@ -1,5 +1,5 @@
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
-version: v1.7.1
+version: v1.25.0
 ignore: {}
 # patches apply the minimum changes required to fix a vulnerability
 patch:
@@ -60,3 +60,255 @@ patch:
         patched: '2017-09-28T02:19:03.719Z'
     - express-status-monitor > socket.io > socket.io-adapter > socket.io-parser > debug:
         patched: '2017-09-28T02:19:03.719Z'
+    - ioredis > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - axios > follow-redirects > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > engine.io > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io-client > engine.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io-client > socket.io-parser > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > socket.io-parser > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-config > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-module > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-try-require > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-policy > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > socket.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > engine.io > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > socket.io-client > engine.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > socket.io-parser > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > socket.io-client > socket.io-parser > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > socket.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-policy > snyk-module > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > snyk-module > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-policy > snyk-resolve > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > snyk-resolve > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-policy > snyk-try-require > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > snyk-try-require > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > clite > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > socket.io-client > engine.io-client > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > socket.io-client > socket.io-parser > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > path-array > array-index > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > http-proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > https-proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > http-proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > https-proxy-agent > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > get-uri > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - socket.io > socket.io-adapter > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-status-monitor > socket.io > socket.io-adapter > debug:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:extend:20180424':
+    - mongoose-auto-increment > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logzio > logzio-nodejs > request > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > http-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > https-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > socks-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > http-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > https-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > socks-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > http-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > https-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > get-uri > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > socks-proxy-agent > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > http-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > https-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > proxy-agent > pac-proxy-agent > socks-proxy-agent > agent-base > extend:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:hoek:20180212':
+    - node-sass > request > hawk > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > request > hawk > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > request > hawk > sntp > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > hawk > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > hawk > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > hawk > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > hawk > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > hawk > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > hawk > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > hawk > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > hawk > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > hawk > sntp > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > hawk > sntp > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > hawk > sntp > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > hawk > sntp > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > hawk > cryptiles > boom > hoek:
+        patched: '2022-10-07T23:29:39.988Z'
+  SNYK-JS-LODASH-567746:
+    - async > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - express-validator > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - mongoose > async > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > sass-graph > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > inquirer > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-resolve-deps > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-mailgun-transport > mailgun-js > form-data > async > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > gaze > globule > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:lodash:20180130':
+    - cli-table2 > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > lodash:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:mime:20170907':
+    - nodemailer-sendgrid-transport > sendgrid > mime:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:moment:20170905':
+    - agenda > moment-timezone > moment:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > moment:
+        patched: '2022-10-07T23:29:39.988Z'
+    - agenda > cron > moment-timezone > moment:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:qs:20170213':
+    - node-sass > request > qs:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > qs:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > qs:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > qs:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:stringstream:20180511':
+    - node-sass > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logzio > logzio-nodejs > request > stringstream:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:tough-cookie:20170905':
+    - node-sass > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-loggly-bulk > node-loggly-bulk > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logzio > logzio-nodejs > request > tough-cookie:
+        patched: '2022-10-07T23:29:39.988Z'
+  'npm:tunnel-agent:20170305':
+    - node-sass > request > tunnel-agent:
+        patched: '2022-10-07T23:29:39.988Z'
+    - node-sass > node-gyp > request > tunnel-agent:
+        patched: '2022-10-07T23:29:39.988Z'
+    - nodemailer-sendgrid-transport > sendgrid > request > tunnel-agent:
+        patched: '2022-10-07T23:29:39.988Z'
+    - winston-logsene > logsene-js > request > tunnel-agent:
+        patched: '2022-10-07T23:29:39.988Z'
