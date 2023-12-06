@@ -62,7 +62,7 @@
     "express-list-endpoints": "3.0.1",
     "express-session": "1.15.6",
     "express-sitemap": "^1.8.0",
-    "express-status-monitor": "1.0.1",
+    "express-status-monitor": "1.2.5",
     "express-validator": "4.3.0",
     "fakerator": "0.3.0",
     "glob": "7.1.2",
