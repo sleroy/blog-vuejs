@@ -6053,9 +6053,10 @@ nodemailer-sendgrid-transport@0.2.0:
   dependencies:
     sendgrid "^1.8.0"
 
-nodemailer@4.3.1:
-  version "4.3.1"
-  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-4.3.1.tgz#40e162f54193ba2fecca200d544e8f6c1106d694"
+nodemailer@7.0.7:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/nodemailer/-/nodemailer-7.0.7.tgz#91a16235c08abb7805a4ec1537ca63edca79687f"
+  integrity sha512-jGOaRznodf62TVzdyhKt/f1Q/c3kYynk8629sgJHpRzGZj01ezbgMMWJSAjHADcwTKxco3B68/R+KHJY2T5BaA==
 
 nodemon@^1.11.0:
   version "1.12.1"
